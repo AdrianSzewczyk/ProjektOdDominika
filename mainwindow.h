@@ -119,7 +119,7 @@ private:
     QTimer *timer = nullptr;
     ARX_window *okno;
     Ui::MainWindow *ui;
-     //QDialog
+
 };
 
 #endif // MAINWINDOW_H
