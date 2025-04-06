@@ -14,6 +14,7 @@ SOURCES += \
     Generator.cpp \
     PID.cpp \
     Symulator.cpp \
+    ZarzadzanieSiec.cpp \
     arx_window.cpp \
     main.cpp \
     mainwindow.cpp
@@ -23,6 +24,7 @@ HEADERS += \
     Generator.h \
     PID.h \
     Symulator.h \
+    ZarzadzanieSiec.h \
     arx_window.h \
     mainwindow.h
 

@@ -18,6 +18,7 @@
 #include <QtCharts/QValueAxis>
 #include <QTimer>
 #include "arx_window.h"
+#include "ZarzadzanieSiec.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -80,7 +81,18 @@ private slots:
 
     void wczytaj_dane_okno();
 
-private:
+
+
+
+
+    void siec_connected();
+    void siec_disconnected();
+    void siec_stateChanged(QAbstractSocket::SocketState);
+    void siec_errorOccurred(QAbstractSocket::SocketError);
+
+    void on_Polacz_clicked();
+
+ private:
     double chartX = 100;
     double chartY = 1;
     int chartPos = 0;
@@ -119,6 +131,9 @@ private:
     QTimer *timer = nullptr;
     ARX_window *okno;
     Ui::MainWindow *ui;
+
+    ZarzadzanieSiec siec;
+    void setZarzadzanieSiec();
 
 };
 

@@ -32,13 +32,13 @@
       <property name="minimumSize">
        <size>
         <width>250</width>
-        <height>760</height>
+        <height>800</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>350</width>
-        <height>770</height>
+        <height>800</height>
        </size>
       </property>
       <property name="font">
@@ -55,7 +55,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>50</y>
+         <y>90</y>
          <width>341</width>
          <height>700</height>
         </rect>
@@ -517,6 +517,26 @@
          <string>Reset Pamięci</string>
         </property>
        </widget>
+      </widget>
+      <widget class="QPushButton" name="Polacz">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>81</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+         <italic>true</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Połącz</string>
+       </property>
       </widget>
      </widget>
     </item>

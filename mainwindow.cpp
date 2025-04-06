@@ -13,6 +13,9 @@
 #include <QLabel>
 #include <QGroupBox>
 #include <QFont>
+#include <QMetaEnum>
+
+#include <QHostAddress>
 #include "mainwindow.h"
 #include "Symulator.h"
 
@@ -129,6 +132,13 @@ MainWindow::MainWindow(QWidget *parent,Symulator *sym)
     ui->arxB_Input->setVisible(false);
     ui->opoznienie_Input->setVisible(false);
     ui->zaklocenia_Input->setVisible(false);
+
+
+
+
+
+
+    setZarzadzanieSiec();
 }
 void MainWindow::on_reset_button_clicked()
 {
@@ -631,5 +641,46 @@ void MainWindow::on_Arx_window_btn_clicked()
     okno = new ARX_window(dane,this);
     okno->show();
     //delete okno;
+}
+
+
+
+//Projekt Sieci zmiany Adriana i Jakuba
+
+void MainWindow::setZarzadzanieSiec(){
+    connect(&siec,&ZarzadzanieSiec::connected,this,&MainWindow::siec_connected);
+    connect(&siec,&ZarzadzanieSiec::disconnected,this,&MainWindow::siec_disconnected);
+    connect(&siec,&ZarzadzanieSiec::stateChanged,this,&MainWindow::siec_stateChanged);
+    connect(&siec,&ZarzadzanieSiec::errorOccurred,this,&MainWindow::siec_errorOccurred);
+}
+
+
+void MainWindow::siec_connected(){
+
+    qDebug("Podłączono");
+}
+void MainWindow::siec_disconnected(){
+
+    qDebug("Rozłączono");
+}
+void MainWindow::siec_stateChanged(QAbstractSocket::SocketState state){
+
+    QMetaEnum metaEnum = QMetaEnum::fromType<QAbstractSocket::SocketState>();
+    qDebug() << metaEnum.valueToKey(state);
+}
+void MainWindow::siec_errorOccurred(QAbstractSocket::SocketError error){
+
+    QMetaEnum metaEnum = QMetaEnum::fromType<QAbstractSocket::SocketError>();
+    qDebug() << metaEnum.valueToKey(error);
+}
+
+
+void MainWindow::on_Polacz_clicked()
+{
+    //QHostAddress ip;
+    QString ipAddress = "127.0.0.1";
+   // QHostAddress ip(ipAddress);
+    auto port = 12345;
+    siec.connectToDevice(ipAddress,port);
 }
 
