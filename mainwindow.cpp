@@ -652,16 +652,25 @@ void MainWindow::setZarzadzanieSiec(){
     connect(&siec,&ZarzadzanieSiec::disconnected,this,&MainWindow::siec_disconnected);
     connect(&siec,&ZarzadzanieSiec::stateChanged,this,&MainWindow::siec_stateChanged);
     connect(&siec,&ZarzadzanieSiec::errorOccurred,this,&MainWindow::siec_errorOccurred);
+    connect(&siec,&ZarzadzanieSiec::dataReady,this,&MainWindow::siec_dataReady);
 }
 
 
 void MainWindow::siec_connected(){
 
     qDebug("Podłączono");
+    ui->Polacz->setText("Rozłącz");
+    ui->PrzesylanieDanych->setEnabled(true);
+    ui->wiadomoscWysylana->setEnabled(true);
+    ui->Send->setEnabled(true);
+
 }
 void MainWindow::siec_disconnected(){
 
     qDebug("Rozłączono");
+    ui->Polacz->setText("Połącz");
+    ui->PrzesylanieDanych->setEnabled(false);
+
 }
 void MainWindow::siec_stateChanged(QAbstractSocket::SocketState state){
 
@@ -677,10 +686,28 @@ void MainWindow::siec_errorOccurred(QAbstractSocket::SocketError error){
 
 void MainWindow::on_Polacz_clicked()
 {
-    //QHostAddress ip;
-    QString ipAddress = "127.0.0.1";
-   // QHostAddress ip(ipAddress);
-    auto port = 12345;
-    siec.connectToDevice(ipAddress,port);
+
+    if(siec.isConnected()){
+        siec.disconnect();
+    }
+    else{
+        //QHostAddress ip;
+        QString ipAddress = "127.0.0.1";
+        // QHostAddress ip(ipAddress);
+        auto port = 12345;
+        siec.connectToDevice(ipAddress,port);
+    }
+
+}
+
+void MainWindow::siec_dataReady(QByteArray data){
+    qDebug()<<(QString)data;
+}
+
+
+void MainWindow::on_Send_clicked()
+{
+    auto message = ui->wiadomoscWysylana->text().trimmed();
+    siec.send(message);
 }
 

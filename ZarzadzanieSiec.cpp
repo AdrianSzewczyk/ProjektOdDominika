@@ -5,8 +5,9 @@ ZarzadzanieSiec::ZarzadzanieSiec(QObject *parent)
 {
     connect(&socket,&QTcpSocket::connected,this,&ZarzadzanieSiec::connected);
     connect(&socket,&QTcpSocket::disconnected,this,&ZarzadzanieSiec::disconnected);
-    connect(&socket,&QTcpSocket::stateChanged,this,&ZarzadzanieSiec::stateChanged);
+    connect(&socket,&QTcpSocket::stateChanged,this,&ZarzadzanieSiec::socketStateChanged);
     connect(&socket,&QTcpSocket::errorOccurred,this,&ZarzadzanieSiec::errorOccurred);
+    connect(&socket,&QTcpSocket::readyRead,this,&ZarzadzanieSiec::socket_readyRead);
 }
 
 void ZarzadzanieSiec::connectToDevice(QString i, int p){
@@ -31,4 +32,27 @@ void ZarzadzanieSiec::connectToDevice(QString i, int p){
 
     // Łączymy się z serwerem
     socket.connectToHost(address, port);
+}
+void ZarzadzanieSiec::socketStateChanged(QAbstractSocket::SocketState state){
+    if(state == QAbstractSocket::UnconnectedState){
+        socket.close();
+    }
+    emit stateChanged(state);
+}
+
+QAbstractSocket::SocketState ZarzadzanieSiec::state(){
+    return socket.state();
+}
+void ZarzadzanieSiec::disconnect(){
+    socket.close();
+}
+bool ZarzadzanieSiec::isConnected(){
+    return socket.state() == QAbstractSocket::ConnectedState;
+}
+void ZarzadzanieSiec::socket_readyRead(){
+    auto data =socket.readAll();
+    emit dataReady(data);
+}
+void ZarzadzanieSiec::send(QString message){
+    socket.write(message.toUtf8());
 }

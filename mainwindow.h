@@ -89,10 +89,12 @@ private slots:
     void siec_disconnected();
     void siec_stateChanged(QAbstractSocket::SocketState);
     void siec_errorOccurred(QAbstractSocket::SocketError);
-
+    void siec_dataReady(QByteArray data);
     void on_Polacz_clicked();
 
- private:
+    void on_Send_clicked();
+
+private:
     double chartX = 100;
     double chartY = 1;
     int chartPos = 0;
